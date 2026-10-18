@@ -51,7 +51,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
 
   GameSession _newSession() {
     final s = AppScope.read(context).settings.settings;
-    return GameSession(difficulty: s.difficulty, challengeMode: s.challengeMode);
+    return GameSession(
+        difficulty: s.difficulty, challengeMode: s.challengeMode);
   }
 
   @override
@@ -287,7 +288,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
             IconButton(
               tooltip: paused ? 'Continuar' : 'Pausar',
               onPressed: canPause ? _togglePause : null,
-              icon: Icon(paused ? Icons.play_arrow_rounded : Icons.pause_rounded),
+              icon:
+                  Icon(paused ? Icons.play_arrow_rounded : Icons.pause_rounded),
             ),
             IconButton(
               tooltip: 'Reiniciar',
@@ -306,8 +308,10 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                 final wide = constraints.maxWidth > constraints.maxHeight &&
                     constraints.maxWidth >= 720;
                 final double boardSize = wide
-                    ? min(constraints.maxHeight - 32, constraints.maxWidth * 0.58)
-                    : min(constraints.maxWidth - 32, constraints.maxHeight - 250);
+                    ? min(
+                        constraints.maxHeight - 32, constraints.maxWidth * 0.58)
+                    : min(
+                        constraints.maxWidth - 32, constraints.maxHeight - 250);
                 final board = _buildBoard(
                   max(180.0, min(boardSize, 640.0)),
                   settings.tileStyle,
@@ -466,7 +470,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
               const SizedBox(width: 12),
               Expanded(
                 child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(foregroundColor: scheme.error),
+                  style:
+                      OutlinedButton.styleFrom(foregroundColor: scheme.error),
                   onPressed: _session.moves > 0 ? _confirmSurrender : null,
                   icon: const Icon(Icons.flag_outlined),
                   label: const Text('Rendirse'),
@@ -499,7 +504,9 @@ class _StatsBar extends StatelessWidget {
         value: '${session.moves}',
       ),
       _StatTile(
-        icon: remaining != null ? Icons.hourglass_bottom_rounded : Icons.timer_outlined,
+        icon: remaining != null
+            ? Icons.hourglass_bottom_rounded
+            : Icons.timer_outlined,
         label: remaining != null ? 'Restante' : 'Tiempo',
         value: formatDuration(remaining ?? session.elapsed),
         color: lowTime ? scheme.error : null,

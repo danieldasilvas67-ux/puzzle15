@@ -132,7 +132,9 @@ class _TileLook {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              base.withLightness((base.lightness + 0.1).clamp(0.0, 1.0)).toColor(),
+              base
+                  .withLightness((base.lightness + 0.1).clamp(0.0, 1.0))
+                  .toColor(),
               base.toColor(),
             ],
           ),

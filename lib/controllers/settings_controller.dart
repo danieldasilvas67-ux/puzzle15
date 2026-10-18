@@ -26,7 +26,8 @@ class SettingsController extends ChangeNotifier {
     unawaited(_storage.saveSettings(next));
   }
 
-  void setThemeMode(ThemeMode mode) => _update(_settings.copyWith(themeMode: mode));
+  void setThemeMode(ThemeMode mode) =>
+      _update(_settings.copyWith(themeMode: mode));
 
   void setDifficulty(Difficulty d) =>
       _update(_settings.copyWith(difficulty: d, hasChosenDifficulty: true));

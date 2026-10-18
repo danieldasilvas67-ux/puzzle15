@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:puzzle15/screens/instructions_screen.dart';
 
 void main() {
-  testWidgets('La pantalla de instrucciones muestra las reglas', (tester) async {
+  testWidgets('La pantalla de instrucciones muestra las reglas',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(home: InstructionsScreen()));
 
     expect(find.text('Cómo jugar'), findsOneWidget);
