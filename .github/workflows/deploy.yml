@@ -21,7 +21,7 @@ env:
 jobs:
   verificar:
     name: Formato, análisis, pruebas, build y PWA
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - name: Checkout
@@ -93,7 +93,7 @@ jobs:
     name: Desplegar en GitHub Pages
     needs: verificar
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write
       id-token: write
