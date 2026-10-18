@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1200),
-  )..forward();
+  );
 
   late final Animation<double> _fade =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
@@ -31,11 +31,26 @@ class _SplashScreenState extends State<SplashScreen>
 
   Timer? _timer;
   bool _navigated = false;
+  bool _started = false;
 
   @override
   void initState() {
     super.initState();
     _timer = Timer(const Duration(milliseconds: 2600), _goToMenu);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    // Con las animaciones desactivadas el logo aparece directamente.
+    final animate = AppScope.read(context).settings.settings.animationsEnabled;
+    if (animate) {
+      _controller.forward();
+    } else {
+      _controller.value = 1;
+    }
   }
 
   void _goToMenu() {

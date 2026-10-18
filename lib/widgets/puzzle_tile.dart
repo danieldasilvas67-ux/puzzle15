@@ -11,6 +11,7 @@ class PuzzleTile extends StatelessWidget {
     required this.style,
     this.inPlace = false,
     this.onTap,
+    this.semanticLabel,
   });
 
   final int number;
@@ -18,6 +19,9 @@ class PuzzleTile extends StatelessWidget {
   final TileStyle style;
   final bool inPlace;
   final VoidCallback? onTap;
+
+  /// Texto para lectores de pantalla; por defecto "Pieza N".
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class PuzzleTile extends StatelessWidget {
         final radius = BorderRadius.circular(extent * 0.18);
         return Semantics(
           button: onTap != null,
-          label: 'Pieza $number',
+          label: semanticLabel ?? 'Pieza $number',
           child: Material(
             type: MaterialType.transparency,
             child: Ink(
@@ -132,7 +136,9 @@ class _TileLook {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              base.withLightness((base.lightness + 0.1).clamp(0.0, 1.0)).toColor(),
+              base
+                  .withLightness((base.lightness + 0.1).clamp(0.0, 1.0))
+                  .toColor(),
               base.toColor(),
             ],
           ),

@@ -25,6 +25,11 @@ class AnimatedMenuButton extends StatefulWidget {
 class _AnimatedMenuButtonState extends State<AnimatedMenuButton> {
   bool _pressed = false;
   bool _hovered = false;
+  bool _focused = false;
+
+  void _activate() {
+    widget.onPressed();
+  }
 
   void _setPressed(bool value) {
     if (_pressed != value) setState(() => _pressed = value);
@@ -38,20 +43,35 @@ class _AnimatedMenuButtonState extends State<AnimatedMenuButton> {
     final activeColor = widget.primary
         ? Color.lerp(scheme.primary, scheme.tertiary, 0.35)!
         : scheme.secondaryContainer;
-    final foreground =
-        widget.primary ? scheme.onPrimary : scheme.onSurface;
+    final foreground = widget.primary ? scheme.onPrimary : scheme.onSurface;
 
+    final highlighted = _pressed || _hovered || _focused;
+
+    // FocusableActionDetector hace que el botón reciba foco con Tab y se
+    // active con Enter o Espacio, igual que los botones de Material.
     return Semantics(
       button: true,
       label: widget.label,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _hovered = true),
-        onExit: (_) => setState(() {
-          _hovered = false;
-          _pressed = false;
+      hint: widget.subtitle,
+      onTap: _activate,
+      excludeSemantics: true,
+      child: FocusableActionDetector(
+        mouseCursor: SystemMouseCursors.click,
+        onShowHoverHighlight: (value) => setState(() {
+          _hovered = value;
+          if (!value) _pressed = false;
         }),
+        onShowFocusHighlight: (value) => setState(() => _focused = value),
+        actions: {
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) => _activate(),
+          ),
+          ButtonActivateIntent: CallbackAction<ButtonActivateIntent>(
+            onInvoke: (_) => _activate(),
+          ),
+        },
         child: GestureDetector(
+          excludeFromSemantics: true,
           onTapDown: (_) => _setPressed(true),
           onTapCancel: () => _setPressed(false),
           onTapUp: (_) => _setPressed(false),
@@ -64,11 +84,16 @@ class _AnimatedMenuButtonState extends State<AnimatedMenuButton> {
               duration: const Duration(milliseconds: 160),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               decoration: BoxDecoration(
-                color: (_pressed || _hovered) ? activeColor : baseColor,
+                color: highlighted ? activeColor : baseColor,
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: _focused ? scheme.outline : Colors.transparent,
+                  width: 2,
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: scheme.shadow.withValues(alpha: _pressed ? 0.05 : 0.15),
+                    color:
+                        scheme.shadow.withValues(alpha: _pressed ? 0.05 : 0.15),
                     blurRadius: _pressed ? 4 : 12,
                     offset: Offset(0, _pressed ? 1 : 4),
                   ),

@@ -30,13 +30,18 @@ class HighScore {
       };
 
   factory HighScore.fromJson(Map<String, dynamic> json) {
-    return HighScore(
+    final score = HighScore(
       bestTimeMs: json['bestTimeMs'] as int,
       bestTimeDate: DateTime.parse(json['bestTimeDate'] as String),
       fewestMoves: json['fewestMoves'] as int,
       fewestMovesDate: DateTime.parse(json['fewestMovesDate'] as String),
       gamesWon: (json['gamesWon'] as int?) ?? 1,
     );
+    // Un récord válido siempre tiene al menos un movimiento y una victoria.
+    if (score.bestTimeMs < 0 || score.fewestMoves < 1 || score.gamesWon < 1) {
+      throw const FormatException('Récord con valores fuera de rango');
+    }
+    return score;
   }
 
   String encode() => jsonEncode(toJson());

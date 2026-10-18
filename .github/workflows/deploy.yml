@@ -1,0 +1,109 @@
+name: CI/CD web
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Misma versión que en desarrollo: el formateador y los lints deben coincidir.
+  FLUTTER_VERSION: '3.47.7'
+
+jobs:
+  verificar:
+    name: Formato, análisis, pruebas, build y PWA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Dependencias
+        run: flutter pub get --enforce-lockfile
+
+      - name: Formato
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Análisis estático
+        run: flutter analyze --fatal-infos
+
+      - name: Pruebas
+        run: flutter test
+
+      - name: Calcular base href
+        id: base
+        run: |
+          repo="${GITHUB_REPOSITORY#*/}"
+          if [[ "$repo" == *.github.io ]]; then href="/"; else href="/${repo}/"; fi
+          echo "href=${href}" >> "$GITHUB_OUTPUT"
+
+      # --no-web-resources-cdn: CanvasKit se sirve desde el mismo origen para
+      # que el service worker pueda guardarlo y la app arranque sin conexión.
+      - name: Build web (release)
+        run: >
+          flutter build web --release --no-web-resources-cdn
+          --base-href "${{ steps.base.outputs.href }}"
+
+      - name: Versionar service worker
+        run: sed -i "s/__BUILD_VERSION__/${GITHUB_SHA::12}-${GITHUB_RUN_ATTEMPT}/" build/web/sw.js
+
+      - name: Verificar PWA (estructura)
+        env:
+          BASE_HREF: ${{ steps.base.outputs.href }}
+        run: node .github/scripts/verify_pwa_static.mjs build/web
+
+      - name: Instalar Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Instalar Playwright y Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1
+          npx playwright install --with-deps chromium
+
+      - name: Verificar PWA (instalable y sin conexión)
+        env:
+          BASE_HREF: ${{ steps.base.outputs.href }}
+        run: node .github/scripts/verify_pwa_offline.mjs build/web
+
+      - name: Subir artefacto de Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: build/web
+
+  desplegar:
+    name: Desplegar en GitHub Pages
+    needs: verificar
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Desplegar
+        id: deployment
+        uses: actions/deploy-pages@v5

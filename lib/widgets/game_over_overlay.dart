@@ -54,7 +54,9 @@ class GameOverOverlay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Icon(
-              won ? Icons.emoji_events_rounded : Icons.sentiment_dissatisfied_rounded,
+              won
+                  ? Icons.emoji_events_rounded
+                  : Icons.sentiment_dissatisfied_rounded,
               size: 72,
               color: won ? Colors.amber.shade600 : scheme.error,
             ),
@@ -62,7 +64,8 @@ class GameOverOverlay extends StatelessWidget {
             Text(
               won ? '¡Ganaste!' : 'Perdiste',
               textAlign: TextAlign.center,
-              style: textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w900),
+              style: textTheme.headlineLarge
+                  ?.copyWith(fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 4),
             Text(subtitle, textAlign: TextAlign.center),
@@ -70,7 +73,8 @@ class GameOverOverlay extends StatelessWidget {
               const SizedBox(height: 12),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.amber.shade100,
                     borderRadius: BorderRadius.circular(999),
@@ -142,7 +146,9 @@ class GameOverOverlay extends StatelessWidget {
   }
 
   static String _recordText(RecordResult r) {
-    if (r.newBestTime && r.newFewestMoves) return '¡Nuevo récord! Tiempo y movimientos';
+    if (r.newBestTime && r.newFewestMoves) {
+      return '¡Nuevo récord! Tiempo y movimientos';
+    }
     if (r.newBestTime) return '¡Nuevo récord de tiempo!';
     return '¡Nuevo récord de movimientos!';
   }
@@ -161,7 +167,8 @@ class _Summary extends StatelessWidget {
       child: Column(
         children: [
           Text(value,
-              style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
+              style:
+                  textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
           Text(label, style: textTheme.labelMedium),
         ],
       ),
