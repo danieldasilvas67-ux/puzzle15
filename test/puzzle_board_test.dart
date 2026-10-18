@@ -13,7 +13,8 @@ void main() {
       }
     });
 
-    test('los tableros barajados siempre son resolubles y no vienen ordenados', () {
+    test('los tableros barajados siempre son resolubles y no vienen ordenados',
+        () {
       final rng = Random(42);
       for (final size in [3, 4, 5]) {
         for (var i = 0; i < 300; i++) {
@@ -35,7 +36,8 @@ void main() {
     });
 
     test('solo se mueven piezas adyacentes al hueco', () {
-      final board = PuzzleBoard.solved(4); // hueco en la esquina inferior derecha
+      final board =
+          PuzzleBoard.solved(4); // hueco en la esquina inferior derecha
       expect(board.canMove(15), isTrue);
       expect(board.canMove(12), isTrue);
       expect(board.canMove(11), isFalse); // diagonal
@@ -78,8 +80,7 @@ void main() {
       ];
       expect(session.tryMoveTile(movable.first), isTrue);
       expect(session.moves, 1);
-      expect(session.status,
-          anyOf(GameStatus.playing, GameStatus.won));
+      expect(session.status, anyOf(GameStatus.playing, GameStatus.won));
     });
 
     test('pausa bloquea movimientos y rendirse cuenta como derrota', () {

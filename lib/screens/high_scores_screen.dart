@@ -111,7 +111,8 @@ class _EmptyState extends StatelessWidget {
             'Completa tu primera partida y aquí aparecerán tu mejor tiempo '
             'y tu menor número de movimientos. ¡Tú puedes!',
             textAlign: TextAlign.center,
-            style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+            style:
+                textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
           ),
         ],
       ),

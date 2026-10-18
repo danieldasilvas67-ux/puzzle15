@@ -36,7 +36,8 @@ class SettingsScreen extends StatelessWidget {
                         ),
                     ],
                     selected: {s.difficulty},
-                    onSelectionChanged: (v) => controller.setDifficulty(v.first),
+                    onSelectionChanged: (v) =>
+                        controller.setDifficulty(v.first),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 6, left: 4),
@@ -68,7 +69,8 @@ class SettingsScreen extends StatelessWidget {
                     selected: {s.themeMode},
                     onSelectionChanged: (v) => controller.setThemeMode(v.first),
                   ),
-                  const _SectionTitle('Estilo de las piezas', Icons.style_outlined),
+                  const _SectionTitle(
+                      'Estilo de las piezas', Icons.style_outlined),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final columns = constraints.maxWidth > 480 ? 4 : 2;
@@ -107,14 +109,16 @@ class SettingsScreen extends StatelessWidget {
                         SwitchListTile(
                           secondary: const Icon(Icons.animation_rounded),
                           title: const Text('Animaciones'),
-                          subtitle: const Text('Deslizamiento de piezas y transiciones'),
+                          subtitle: const Text(
+                              'Deslizamiento de piezas y transiciones'),
                           value: s.animationsEnabled,
                           onChanged: controller.setAnimations,
                         ),
                         SwitchListTile(
                           secondary: const Icon(Icons.volume_up_outlined),
                           title: const Text('Efectos de sonido'),
-                          subtitle: const Text('Clic y vibración al mover (sin música)'),
+                          subtitle: const Text(
+                              'Clic y vibración al mover (sin música)'),
                           value: s.soundEnabled,
                           onChanged: controller.setSound,
                         ),
@@ -213,7 +217,8 @@ class _StyleOption extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 180),
       decoration: BoxDecoration(
-        color: selected ? scheme.secondaryContainer : scheme.surfaceContainerHigh,
+        color:
+            selected ? scheme.secondaryContainer : scheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: selected ? scheme.primary : Colors.transparent,
@@ -259,7 +264,8 @@ class _StyleOption extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 if (selected)
-                  Icon(Icons.check_circle_rounded, size: 18, color: scheme.primary),
+                  Icon(Icons.check_circle_rounded,
+                      size: 18, color: scheme.primary),
               ],
             ),
           ),

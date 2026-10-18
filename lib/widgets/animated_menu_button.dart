@@ -38,8 +38,7 @@ class _AnimatedMenuButtonState extends State<AnimatedMenuButton> {
     final activeColor = widget.primary
         ? Color.lerp(scheme.primary, scheme.tertiary, 0.35)!
         : scheme.secondaryContainer;
-    final foreground =
-        widget.primary ? scheme.onPrimary : scheme.onSurface;
+    final foreground = widget.primary ? scheme.onPrimary : scheme.onSurface;
 
     return Semantics(
       button: true,
@@ -68,7 +67,8 @@ class _AnimatedMenuButtonState extends State<AnimatedMenuButton> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: scheme.shadow.withValues(alpha: _pressed ? 0.05 : 0.15),
+                    color:
+                        scheme.shadow.withValues(alpha: _pressed ? 0.05 : 0.15),
                     blurRadius: _pressed ? 4 : 12,
                     offset: Offset(0, _pressed ? 1 : 4),
                   ),

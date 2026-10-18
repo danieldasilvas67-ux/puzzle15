@@ -19,13 +19,15 @@ class InstructionsScreen extends StatelessWidget {
               const _Rule(
                 icon: Icons.flag_rounded,
                 title: 'Objetivo',
-                body: 'Ordena las piezas en orden numérico utilizando el espacio '
+                body:
+                    'Ordena las piezas en orden numérico utilizando el espacio '
                     'vacío para deslizar las piezas adyacentes.',
               ),
               const _Rule(
                 icon: Icons.touch_app_rounded,
                 title: 'Cómo mover',
-                body: 'Toca o haz clic en una pieza que esté junto al espacio vacío '
+                body:
+                    'Toca o haz clic en una pieza que esté junto al espacio vacío '
                     '(arriba, abajo, izquierda o derecha) y se deslizará hacia él. '
                     'En computadora también puedes usar las flechas del teclado o '
                     'W A S D. Las diagonales no están permitidas.',
@@ -33,14 +35,16 @@ class InstructionsScreen extends StatelessWidget {
               const _Rule(
                 icon: Icons.emoji_events_rounded,
                 title: 'Cuándo ganas',
-                body: 'Ganas cuando todas las piezas quedan ordenadas de izquierda a '
+                body:
+                    'Ganas cuando todas las piezas quedan ordenadas de izquierda a '
                     'derecha y de arriba hacia abajo (1, 2, 3...) y el espacio vacío '
                     'queda al final, en la esquina inferior derecha.',
               ),
               const _Rule(
                 icon: Icons.timer_off_rounded,
                 title: 'Cuándo pierdes',
-                body: 'Con el "Modo desafío" activo cada dificultad tiene un tiempo '
+                body:
+                    'Con el "Modo desafío" activo cada dificultad tiene un tiempo '
                     'límite (Fácil 3 min, Medio 10 min, Difícil 25 min). Si el '
                     'cronómetro llega al límite antes de ordenar el tablero, pierdes. '
                     'También pierdes si pulsas "Rendirse". Sin el modo desafío no '
@@ -56,14 +60,16 @@ class InstructionsScreen extends StatelessWidget {
               const _Rule(
                 icon: Icons.star_rounded,
                 title: 'Récords',
-                body: 'Por cada dificultad se guardan tu mejor tiempo y tu menor '
+                body:
+                    'Por cada dificultad se guardan tu mejor tiempo y tu menor '
                     'número de movimientos. Siempre es posible resolver el tablero: '
                     'el juego solo genera combinaciones con solución.',
               ),
               const _Rule(
                 icon: Icons.lightbulb_outline_rounded,
                 title: 'Consejo',
-                body: 'Resuelve primero la fila superior y la columna izquierda; '
+                body:
+                    'Resuelve primero la fila superior y la columna izquierda; '
                     'luego trabaja el tablero restante como si fuera uno más pequeño. '
                     'El punto en la esquina de cada pieza indica que ya está en su lugar.',
               ),
