@@ -251,8 +251,13 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         key == LogicalKeyboardKey.keyD) {
       direction = MoveDirection.right;
     } else if (key == LogicalKeyboardKey.keyP ||
-        key == LogicalKeyboardKey.space) {
+        (key == LogicalKeyboardKey.space && node.hasPrimaryFocus)) {
+      // Espacio solo pausa si el foco está en el tablero; si está en un
+      // botón, Espacio debe activarlo.
       _togglePause();
+      return KeyEventResult.handled;
+    } else if (key == LogicalKeyboardKey.escape && !_showOverlay) {
+      _handleBack();
       return KeyEventResult.handled;
     }
     if (direction == null) return KeyEventResult.ignored;
@@ -443,7 +448,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         hint = 'Toca una pieza junto al espacio vacío para empezar. '
             'El cronómetro arranca con tu primer movimiento.';
       case GameStatus.playing:
-        hint = 'Teclado: flechas o WASD para mover, P para pausar.';
+        hint = 'Teclado: flechas o WASD para mover, P para pausar, '
+            'Esc para salir.';
       case GameStatus.paused:
         hint = 'Partida en pausa. El tiempo está detenido.';
       case GameStatus.won:
