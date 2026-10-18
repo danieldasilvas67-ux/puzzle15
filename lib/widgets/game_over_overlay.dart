@@ -146,8 +146,9 @@ class GameOverOverlay extends StatelessWidget {
   }
 
   static String _recordText(RecordResult r) {
-    if (r.newBestTime && r.newFewestMoves)
+    if (r.newBestTime && r.newFewestMoves) {
       return '¡Nuevo récord! Tiempo y movimientos';
+    }
     if (r.newBestTime) return '¡Nuevo récord de tiempo!';
     return '¡Nuevo récord de movimientos!';
   }
