@@ -1,46 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
+  <!-- flutter build reemplaza este valor con --base-href. Debe empezar y terminar con "/". -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="15-Puzzle Flutter: rompecabezas deslizante en 3x3, 4x4 y 5x5. Instalable y disponible sin conexión.">
+  <meta name="theme-color" content="#5B5BD6">
 
-  <!-- iOS meta tags & icons -->
+  <!-- iOS -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="puzzle15">
+  <meta name="apple-mobile-web-app-title" content="15-Puzzle">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>puzzle15</title>
+  <title>15-Puzzle Flutter</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    body { margin: 0; background: #F6F5FF; }
+    #carga { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+             font: 600 18px system-ui, sans-serif; color: #5B5BD6; }
+    @media (prefers-color-scheme: dark) { body { background: #131318; } #carga { color: #C3C0FF; } }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <div id="carga" role="status" aria-live="polite">Cargando 15-Puzzle…</div>
+  <noscript>Necesitas activar JavaScript para jugar 15-Puzzle Flutter.</noscript>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var carga = document.getElementById('carga');
+      if (carga) carga.remove();
+    });
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (error) {
+          console.warn('No se pudo registrar el service worker:', error);
+        });
+      });
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
