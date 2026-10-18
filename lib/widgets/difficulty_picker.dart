@@ -10,10 +10,12 @@ Future<Difficulty?> showDifficultyPicker(
   return showModalBottomSheet<Difficulty>(
     context: context,
     showDragHandle: true,
+    // Permite usar más alto que el 9/16 por defecto en pantallas bajas.
+    isScrollControlled: true,
     builder: (context) {
       final textTheme = Theme.of(context).textTheme;
       return SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
