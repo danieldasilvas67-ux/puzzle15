@@ -73,6 +73,9 @@ class PuzzleBoardView extends StatelessWidget {
           totalTiles: board.tileCount,
           style: style,
           inPlace: board.isTileInPlace(tile),
+          semanticLabel: 'Pieza $tile, fila ${board.rowOf(index) + 1}, '
+              'columna ${board.colOf(index) + 1}'
+              '${board.canMove(tile) ? ', se puede mover' : ''}',
           onTap: hidden ? null : () => onTileTap(tile),
         ),
       ),

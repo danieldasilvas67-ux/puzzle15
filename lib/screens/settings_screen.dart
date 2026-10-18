@@ -245,11 +245,14 @@ class _StyleOption extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 3),
                           child: SizedBox.square(
                             dimension: 36,
-                            child: IgnorePointer(
-                              child: PuzzleTile(
-                                number: n,
-                                totalTiles: 8,
-                                style: style,
+                            // Vista previa decorativa: no se anuncia.
+                            child: ExcludeSemantics(
+                              child: IgnorePointer(
+                                child: PuzzleTile(
+                                  number: n,
+                                  totalTiles: 8,
+                                  style: style,
+                                ),
                               ),
                             ),
                           ),
