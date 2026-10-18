@@ -305,28 +305,48 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
             onKeyEvent: _onKey,
             child: LayoutBuilder(
               builder: (context, constraints) {
+                const margin = 16.0;
+                const gap = 32.0;
+                const panelWidth = 300.0;
                 final wide = constraints.maxWidth > constraints.maxHeight &&
                     constraints.maxWidth >= 720;
+                // En modo ancho el tablero ocupa lo que dejan libre el panel
+                // lateral y los márgenes, para que la fila nunca desborde.
                 final double boardSize = wide
                     ? min(
-                        constraints.maxHeight - 32, constraints.maxWidth * 0.58)
+                        constraints.maxHeight - 2 * margin,
+                        constraints.maxWidth - panelWidth - gap - 2 * margin,
+                      )
                     : min(
-                        constraints.maxWidth - 32, constraints.maxHeight - 250);
+                        constraints.maxWidth - 2 * margin,
+                        constraints.maxHeight - 250,
+                      );
                 final board = _buildBoard(
                   max(180.0, min(boardSize, 640.0)),
                   settings.tileStyle,
                   settings.animationsEnabled,
                 );
-                final panel = _buildPanel(wide);
+                // En pantallas bajas (móvil apaisado) las estadísticas van en
+                // fila para que el panel quepa.
+                final panel = _buildPanel(
+                  wide,
+                  compactStats: constraints.maxHeight < 480,
+                );
 
                 final content = wide
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          board,
-                          const SizedBox(width: 32),
-                          SizedBox(width: 300, child: panel),
-                        ],
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: margin),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            board,
+                            const SizedBox(width: gap),
+                            SizedBox(
+                              width: panelWidth,
+                              child: SingleChildScrollView(child: panel),
+                            ),
+                          ],
+                        ),
                       )
                     : SingleChildScrollView(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -412,7 +432,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildPanel(bool wide) {
+  Widget _buildPanel(bool wide, {bool compactStats = false}) {
     final textTheme = Theme.of(context).textTheme;
     final scheme = Theme.of(context).colorScheme;
     final status = _session.status;
@@ -436,7 +456,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (wide) ...[
-          _StatsBar(session: _session, vertical: true),
+          _StatsBar(session: _session, vertical: !compactStats),
           const SizedBox(height: 20),
         ],
         Text(
