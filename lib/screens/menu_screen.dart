@@ -129,8 +129,8 @@ class MenuScreen extends StatelessWidget {
                         staggered(
                           5,
                           AnimatedMenuButton(
-                            label: 'Cómo jugar',
-                            subtitle: 'Reglas e instrucciones',
+                            label: 'Instrucciones',
+                            subtitle: 'Cómo jugar: reglas y controles',
                             icon: Icons.help_outline_rounded,
                             onPressed: () =>
                                 _open(context, const InstructionsScreen()),

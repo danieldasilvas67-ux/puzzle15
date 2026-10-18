@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/app_scope.dart';
@@ -117,8 +118,10 @@ class SettingsScreen extends StatelessWidget {
                         SwitchListTile(
                           secondary: const Icon(Icons.volume_up_outlined),
                           title: const Text('Efectos de sonido'),
-                          subtitle: const Text(
-                              'Clic y vibración al mover (sin música)'),
+                          // En la web no hay sonidos del sistema: solo vibra.
+                          subtitle: const Text(kIsWeb
+                              ? 'Vibración al mover en dispositivos compatibles'
+                              : 'Clic y vibración al mover (sin música)'),
                           value: s.soundEnabled,
                           onChanged: controller.setSound,
                         ),
